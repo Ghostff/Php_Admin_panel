@@ -179,7 +179,10 @@ class Promise
 					$new_json = json_encode($json);
 					self::setConfig($new_json, false);
 					
-					$alert = array('type' => 'success', 'message' =>'(' . $editting . ') Deleted');	
+					$alert = array(
+						'type' => 'success',
+						'message' =>'(' . $editting . ') Deleted'
+					);	
 					
 				}
 				else {
@@ -188,10 +191,15 @@ class Promise
 					$connection = self::$connection_log[$editting];
 					
 					if ($connection['status'] == false) {
-						$alert = array('type' => 'error', 'message' => $connection['message']);	
+						$alert = array(
+							'type' => 'error', 
+							'message' => $connection['message']
+						);	
 					}
 					
-					$del_btn = self::templateForg(array('name' => $editting), self::getTemplate('delete_button'));
+					$del_btn = self::templateForg(array(
+						'name' => $editting
+					), self::getTemplate('delete_button'));
 					
 					list($host, $use, $pass) = array_values($json[$editting]);
 					$name = $editting;
@@ -199,7 +207,10 @@ class Promise
 				
 			}
 			else {
-				$alert = array('type' => 'error', 'message' => 'Connection (' . $editting . ') does not exists');	
+				$alert = array(
+					'type' => 'error',
+					'message' => 'Connection (' . $editting . ') does not exists'
+				);	
 			}
 			$alert = self::templateForg($alert, $alert_template);
 
@@ -225,10 +236,16 @@ class Promise
 						array_pop($_POST);
 						$connection = self::testDB($_POST);
 						if ( $connection['status'] == false) {
-							$alert = array('type' => 'error', 'message' => $connection['message']);
+							$alert = array(
+								'type' => 'error', 
+								'message' => $connection['message']
+							);
 						}
 						else {
-							$alert = array('type' => 'success', 'message' => 'Connected');
+							$alert = array(
+								'type' => 'success',
+								'message' => 'Connected'
+							);
 						}
 						$alert = self::templateForg($alert, $alert_template);
 					}
@@ -243,7 +260,10 @@ class Promise
 							$new_json = $json;
 							
 							if (array_key_exists($name, $new_json)) {
-								$alert = array('type' => 'error', 'message' => 'Connection (' . $name . ') already exists');
+								$alert = array(
+									'type' => 'error', 
+									'message' => 'Connection (' . $name . ') already exists'
+								);
 							}
 						}
 						
@@ -253,7 +273,10 @@ class Promise
 						self::setConfig($new_json, false);
 						
 						if ( ! $alert) {
-							$alert = array('type' => 'success', 'message' => 'Connection Saved!');
+							$alert = array(
+								'type' => 'success',
+								'message' => 'Connection Saved!'
+							);
 						}
 						$alert = self::templateForg($alert, $alert_template);
 						
@@ -315,9 +338,16 @@ class Promise
 			array_map(function ($key, $values) use (&$columns, &$tblhead) {
 				
 				if ($tblhead !== false) {
-					$tblhead .= '<th scope="col" class="' . $key .'">' . $key . '</th>';
+					$tblhead .= sprintf(
+						'<th scope="col" class="text-left %1$s">%1$s</th>',
+						$key
+					);
 				}
-				$columns .= '<td class="' . $key .'">' . substr($values, 0, 4) . '</td>';
+				$to = strlen($key);
+				$columns .= sprintf(
+					'<td class="text-left %s" data-name="%s">%s</th>',
+					$key, $values, substr($values, 0, $to)
+				);
 				
 			}, array_keys($val), $val);
 			

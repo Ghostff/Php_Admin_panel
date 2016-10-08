@@ -56,12 +56,16 @@ add: {{
 
 
 table_list: {{
-<table width="100%" border="1">
-	<tbody>
-        <tr>
-            [[table_head]]
-        </tr>
-        [[contents]]
-    </tbody>
-</table>
+<div class="tbl-container">
+    <table class="table-fill">
+        <thead>
+            <tr>
+                [[table_head]]
+            </tr>
+        </thead>
+        <tbody class="table-hover">
+            [[contents]]
+        </tbody>
+    </table>
+</div>
 }}
